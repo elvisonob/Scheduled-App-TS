@@ -14,14 +14,14 @@ function App() {
     });
   };
 
-  const onRemoveTodoHandler = (id: Todo['id']) => {
-    setTodos(todos.filter((eachTodos) => eachTodos.id !== id));
+  const onRemoveTodoHandler = (id: string) => {
+    setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
   };
 
   return (
     <div>
       <NewTodo onAddText={onAddTodoHandler} />
-      <Todos items={todos} />
+      <Todos onRemoveText={onRemoveTodoHandler} items={todos} />
     </div>
   );
 }
