@@ -14,6 +14,10 @@ function App() {
     });
   };
 
+  const onRemoveTodoHandler = (id: Todo['id']) => {
+    setTodos(todos.filter((eachTodos) => eachTodos.id !== id));
+  };
+
   return (
     <div>
       <NewTodo onAddText={onAddTodoHandler} />
