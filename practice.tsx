@@ -1,3 +1,9 @@
-let hobbies: (string | number)[] = ['Tinkering', 'Researching'];
+// function read(book: unknown) {
+//   if (typeof book === 'object' && typeof book.log === 'function') {
+//     book.log();
+//   }
+// }
 
-hobbies.push(10);
+const val = 'Hello';
+
+console.log(!val);
