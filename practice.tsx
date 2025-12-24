@@ -1,9 +1,18 @@
-// function read(book: unknown) {
-//   if (typeof book === 'object' && typeof book.log === 'function') {
-//     book.log();
-//   }
-// }
+type Elvis = {
+  age: number;
+  profession: string;
+};
 
-const val = 'Hello';
+type Ese = {
+  gender: string;
+  height: number;
+};
 
-console.log(!val);
+type Eric = {
+  maritalStatus: string;
+  location: string;
+};
+
+type AccessElvisEse = Elvis & Ese;
+
+type AcessElvisEricEse = Elvis & Ese & Eric;
