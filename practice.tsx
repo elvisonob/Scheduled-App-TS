@@ -1,18 +1,8 @@
-type Elvis = {
-  age: number;
-  profession: string;
+type Datastore = {
+  [prop: string]: number | boolean;
 };
 
-type Ese = {
-  gender: string;
-  height: number;
-};
+let store: Datastore = {};
 
-type Eric = {
-  maritalStatus: string;
-  location: string;
-};
-
-type AccessElvisEse = Elvis & Ese;
-
-type AcessElvisEricEse = Elvis & Ese & Eric;
+store.isOpen = false;
+store.count = 5;
