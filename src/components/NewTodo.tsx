@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 
 const NewTodo: React.FC<{ onAddText: (enteredText: string) => void }> = (
-  props
+  props,
 ) => {
   const todoTextInputRef = useRef<HTMLInputElement>(null);
 
@@ -19,7 +19,7 @@ const NewTodo: React.FC<{ onAddText: (enteredText: string) => void }> = (
     <form onSubmit={submitHandler}>
       <label htmlFor="text">Todo text</label>
       <input type="text" id="text" ref={todoTextInputRef} />
-      <button>Add Todo</button>
+      <button>Add Todoss</button>
     </form>
   );
 };
