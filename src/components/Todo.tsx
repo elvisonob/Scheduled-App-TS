@@ -1,16 +1,30 @@
 import { useState } from 'react';
+import TodoList from './TodoList';
+
+type Todos = {
+  id: number;
+  text: string;
+};
 
 function Todo() {
   const [todoList, setTodoList] = useState('');
+  const [todos, setTodos] = useState<Todos[]>([]);
 
   const onHandleTodo = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTodoList(e.target.value);
   };
 
   const onSubmitTodo = () => {
-    console.log(todoList);
+    setTodos((prev) => {
+      return [...prev, { id: Math.random(), text: todoList }];
+    });
     setTodoList('');
   };
+
+  function removeTodo(id: number) {
+    setTodos(todos.filter((todo) => todo.id !== id));
+  }
+
   return (
     <div>
       <h1>TODO APP</h1>
@@ -21,6 +35,7 @@ function Todo() {
         onChange={onHandleTodo}
       />
       <button onClick={onSubmitTodo}>ADD TODO</button>
+      <TodoList removeTodo={removeTodo} todos={todos} />
     </div>
   );
 }
