@@ -6,10 +6,9 @@ type Todos = {
 type TodoListProps = {
   todos: Todos[];
   removeTodo: (id: number) => void;
-  onEdit: (id: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-function TodoList({ todos, removeTodo, onEdit }: TodoListProps) {
+function TodoList({ todos, removeTodo }: TodoListProps) {
   return (
     <div>
       <h2>LIST OF TODOS</h2>
@@ -24,7 +23,7 @@ function TodoList({ todos, removeTodo, onEdit }: TodoListProps) {
             >
               Remove
             </button>
-            <button onClick={onEdit(todo.id)}>Edit</button>
+            <button>Edit</button>
           </div>
         ))}
       </ul>

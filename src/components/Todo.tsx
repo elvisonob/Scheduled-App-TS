@@ -15,6 +15,8 @@ function Todo() {
   };
 
   const onSubmitTodo = () => {
+    if (!todoList.trim()) return;
+
     setTodos((prev) => {
       return [...prev, { id: Math.random(), text: todoList }];
     });
