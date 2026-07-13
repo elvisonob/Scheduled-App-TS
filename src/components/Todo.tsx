@@ -17,14 +17,18 @@ function Todo() {
   const onSubmitTodo = () => {
     if (!todoList.trim()) return;
 
-    setTodos((prev) => {
-      return [...prev, { id: Math.random(), text: todoList }];
-    });
+    setTodos((prev) => [...prev, { id: Math.random(), text: todoList }]);
     setTodoList('');
   };
 
   function removeTodo(id: number) {
-    setTodos(todos.filter((todo) => todo.id !== id));
+    setTodos((prev) => prev.filter((todo) => todo.id !== id));
+  }
+
+  function onEditTodo(id: number, newText: string) {
+    setTodos((prev) =>
+      prev.map((todo) => (todo.id === id ? { ...todo, text: newText } : todo)),
+    );
   }
 
   return (
@@ -37,7 +41,7 @@ function Todo() {
         onChange={onHandleTodo}
       />
       <button onClick={onSubmitTodo}>ADD TODO</button>
-      <TodoList removeTodo={removeTodo} todos={todos} />
+      <TodoList removeTodo={removeTodo} onEditTodo={onEditTodo} todos={todos} />
     </div>
   );
 }

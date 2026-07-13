@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 type Todos = {
   id: number;
   text: string;
@@ -6,25 +8,19 @@ type Todos = {
 type TodoListProps = {
   todos: Todos[];
   removeTodo: (id: number) => void;
+  onEditTodo: (id: number, text: string) => void;
 };
 
-function TodoList({ todos, removeTodo }: TodoListProps) {
+function TodoList({ todos, removeTodo, onEditTodo }: TodoListProps) {
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editText, setEditText] = useState('');
+
   return (
     <div>
       <h2>LIST OF TODOS</h2>
       <ul>
         {todos.map((todo) => (
-          <div key={todo.id}>
-            <li>{todo.text}</li>
-            <button
-              onClick={() => {
-                removeTodo(todo.id);
-              }}
-            >
-              Remove
-            </button>
-            <button>Edit</button>
-          </div>
+          <li>{todo.text}</li>
         ))}
       </ul>
     </div>
