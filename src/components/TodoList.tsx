@@ -8,7 +8,7 @@ type Todos = {
 type TodoListProps = {
   todos: Todos[];
   removeTodo: (id: number) => void;
-  onEditTodo: (id: number, text: string) => void;
+  onEditTodo: (id: number, newText: string) => void;
 };
 
 function TodoList({ todos, removeTodo, onEditTodo }: TodoListProps) {
@@ -20,26 +20,42 @@ function TodoList({ todos, removeTodo, onEditTodo }: TodoListProps) {
     setEditText(text);
   }
 
-  function saveEdit(id: number, text: string) {
-    onEditTodo(id, text);
+  function saveEdit(id: number) {
+    onEditTodo(id, editText);
     setEditingId(null);
     setEditText('');
   }
 
-  // if an edit button is clicked, the input dialog box should open up
-  // and then we have the save button showing
-  // after editing is done, the save button is clicked
-  // new update takes shape
+  // if edit button is clicked, the button should
+  // change to save and there should be an input box,
+  // and when save is clicked edit and remove button
+  // should show up and the next text
 
   return (
     <div>
       <h2>LIST OF TODOS</h2>
       <ul>
         {todos.map((todo) => (
-        {editingId === todo.id? <input value={editText} onChange={(e)=> setEditText(e.target.value)}/>}
+          <li key={todo.id}>
+            {editingId === todo.id ? (
+              <>
+                <input
+                  value={editText}
+                  onChange={(e) => setEditText(e.target.value)}
+                />
+                <button onClick={() => saveEdit(todo.id)}>Save</button>
+              </>
+            ) : (
+              <>
+                <div>{todo.text}</div>
+                <button onClick={() => removeTodo(todo.id)}>Remove</button>
 
-
-          <li>{todo.text}</li>
+                <button onClick={() => startEditing(todo.id, todo.text)}>
+                  Edit
+                </button>
+              </>
+            )}
+          </li>
         ))}
       </ul>
     </div>
