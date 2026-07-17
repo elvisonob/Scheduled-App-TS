@@ -1,47 +1,33 @@
 import { useState } from 'react';
 import TodoList from './TodoList';
 
-type Todos = {
+type Todo = {
   id: number;
   text: string;
 };
 
 function Todo() {
-  const [todoList, setTodoList] = useState('');
-  const [todos, setTodos] = useState<Todos[]>([]);
+  const [todoText, setTodoText] = useState('');
+  const [todoList, setTodoList] = useState<Todo[]>([]);
 
-  const onHandleTodo = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTodoList(e.target.value);
-  };
-
-  const onSubmitTodo = () => {
-    if (!todoList.trim()) return;
-
-    setTodos((prev) => [...prev, { id: Math.random(), text: todoList }]);
-    setTodoList('');
-  };
-
-  function removeTodo(id: number) {
-    setTodos((prev) => prev.filter((todo) => todo.id !== id));
+  function onChangeTodo(e: React.ChangeEvent<HTMLInputElement>) {
+    setTodoText(e.target.value);
   }
 
-  function onEditTodo(id: number, newText: string) {
-    setTodos((prev) =>
-      prev.map((todo) => (todo.id === id ? { ...todo, text: newText } : todo)),
-    );
+  function onSubmitTodo() {
+    setTodoList((prev) => [...prev, { id: Math.random(), text: todoText }]);
   }
 
   return (
     <div>
       <h1>TODO APP</h1>
-      <input
-        type="text"
-        name="todoText"
-        value={todoList}
-        onChange={onHandleTodo}
-      />
-      <button onClick={onSubmitTodo}>ADD TODO</button>
-      <TodoList removeTodo={removeTodo} onEditTodo={onEditTodo} todos={todos} />
+      <h2>ADD TODO</h2>
+      <input id="todo" type="text" value={todoText} onChange={onChangeTodo} />
+      <button onClick={() => onSubmitTodo}>Submit</button>
+      <div>
+        <h3>LIST OF TODO</h3>
+        <TodoList />
+      </div>
     </div>
   );
 }
