@@ -8,9 +8,10 @@ type todos = {
 type TodoProps = {
   todoList: todos[];
   onRemoveTodo: (id: number) => void;
+  editTodo: (id: number, newText: string) => void;
 };
 
-function TodoList({ todoList, onRemoveTodo }: TodoProps) {
+function TodoList({ todoList, onRemoveTodo, editTodo }: TodoProps) {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editingText, setEditingText] = useState('');
 
@@ -18,9 +19,11 @@ function TodoList({ todoList, onRemoveTodo }: TodoProps) {
     setEditingId(id);
   }
 
-  function saveEditing(id: number, text: string) {
-    setEditingText(text);
-    setEditingId(id);
+  function saveEditing(id: number) {
+    editTodo(id, editingText);
+    setEditingId(null);
+
+    setEditingText('');
   }
 
   return (
@@ -35,9 +38,7 @@ function TodoList({ todoList, onRemoveTodo }: TodoProps) {
                     value={editingText}
                     onChange={(e) => setEditingText(e.target.value)}
                   />
-                  <button onClick={() => saveEditing(todo.id, todo.text)}>
-                    Saved
-                  </button>
+                  <button onClick={() => saveEditing(todo.id)}>Save</button>
                 </>
               ) : (
                 <>

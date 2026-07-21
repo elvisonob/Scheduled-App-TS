@@ -23,6 +23,19 @@ function Todo() {
     setTodoList((prev) => prev.filter((todo) => todo.id !== id));
   }
 
+  function editTodo(id: number, newText: string) {
+    setTodoList((prev) =>
+      prev.map((todo) =>
+        todo.id === id
+          ? {
+              ...todo,
+              text: newText,
+            }
+          : todo,
+      ),
+    );
+  }
+
   return (
     <div>
       <h1>TODO APP</h1>
@@ -31,7 +44,11 @@ function Todo() {
       <button onClick={() => onSubmitTodo()}>Submit</button>
       <div>
         <h3>LIST OF TODO</h3>
-        <TodoList onRemoveTodo={onRemoveTodo} todoList={todoList} />
+        <TodoList
+          onRemoveTodo={onRemoveTodo}
+          editTodo={editTodo}
+          todoList={todoList}
+        />
       </div>
     </div>
   );
