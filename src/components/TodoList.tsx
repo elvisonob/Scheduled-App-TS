@@ -1,58 +1,23 @@
 import { useState } from 'react';
 
-type todos = {
+type TodoContent = {
   id: number;
   text: string;
 };
-
-type TodoProps = {
-  todoList: todos[];
-  onRemoveTodo: (id: number) => void;
-  editTodo: (id: number, newText: string) => void;
+type Todos = {
+  todoList: TodoContent[];
+  editTodo: (id: number, text: string) => void;
 };
 
-function TodoList({ todoList, onRemoveTodo, editTodo }: TodoProps) {
+function TodoList({ todoList, editTodo }: Todos) {
   const [editingId, setEditingId] = useState<number | null>(null);
-  const [editingText, setEditingText] = useState('');
+  const [editText, setEditText] = useState('');
 
   function startEditing(id: number) {
     setEditingId(id);
   }
 
-  function saveEditing(id: number) {
-    editTodo(id, editingText);
-    setEditingId(null);
-
-    setEditingText('');
-  }
-
-  return (
-    <div>
-      <ul>
-        {todoList.map((todo) => {
-          return (
-            <div key={todo.id}>
-              {editingId === todo.id ? (
-                <>
-                  <input
-                    value={editingText}
-                    onChange={(e) => setEditingText(e.target.value)}
-                  />
-                  <button onClick={() => saveEditing(todo.id)}>Save</button>
-                </>
-              ) : (
-                <>
-                  <li>{todo.text}</li>
-                  <button onClick={() => onRemoveTodo(todo.id)}>Remove</button>
-                  <button onClick={() => startEditing(todo.id)}>Edit</button>
-                </>
-              )}
-            </div>
-          );
-        })}
-      </ul>
-    </div>
-  );
+  return <div></div>;
 }
 
 export default TodoList;
