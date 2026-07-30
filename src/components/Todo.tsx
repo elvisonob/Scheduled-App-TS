@@ -1,25 +1,24 @@
 import { useState } from 'react';
 import TodoList from './TodoList';
 
-type Todo = {
+type Todos = {
   id: number;
   text: string;
 };
 
 function Todo() {
   const [todoText, setTodoText] = useState('');
-  const [todoList, setTodoList] = useState<Todo[]>([]);
+  const [todoList, setTodoList] = useState<Todos[]>([]);
 
   function onChangeTodo(e: React.ChangeEvent<HTMLInputElement>) {
     setTodoText(e.target.value);
   }
 
   function onSubmitTodo() {
+    if (!todoText.trim()) return;
     setTodoList((prev) => {
       return [...prev, { id: Math.random(), text: todoText }];
     });
-
-    console.log(todoText);
     setTodoText('');
   }
 
@@ -31,7 +30,7 @@ function Todo() {
       <button onClick={onSubmitTodo}>Submit</button>
       <div>
         <h3>LIST OF TODO</h3>
-        <TodoList />
+        <TodoList todoList={todoList} onSubmitTodo={onSubmitTodo} />
       </div>
     </div>
   );
