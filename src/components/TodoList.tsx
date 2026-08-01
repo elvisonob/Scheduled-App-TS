@@ -44,7 +44,7 @@ function TodoList({ todoList, onSubmitTodo }: TodoProps) {
                 <>
                   {todo.text}
                   <button onClick={() => startEdit(todo.id, todo.text)}>
-                    Edit
+                    Edits
                   </button>
                   <button>Remove</button>
                 </>
