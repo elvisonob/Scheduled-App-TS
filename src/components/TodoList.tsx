@@ -1,55 +1,46 @@
 import { useState } from 'react';
 
-type Todo = {
+type Todos = {
   id: number;
   text: string;
 };
 
-type TodoProps = {
-  todoList: Todo[];
-  onSubmitTodo: (id: number, text: string) => void;
+type TodoArray = {
+  todoList: Todos[];
 };
 
-function TodoList({ todoList, onSubmitTodo }: TodoProps) {
-  const [editingText, setEditingText] = useState('');
-  const [editId, setEditId] = useState<number | null>(null);
+//when editId is clicked, the UI has to change hence a state
+// it needs to change to an input form with a save button
 
-  function startEdit(id: number, text: string) {
+function TodoList({ todoList }: TodoArray) {
+  const [editText, setEditText] = useState('');
+  const [editId, setEditId] = useState<null | number>(null);
+
+  function startEdit(id: number) {
     setEditId(id);
-    setEditingText(text);
-  }
-
-  function saveEdit(id: number) {
-    onSubmitTodo(id, editingText);
-    setEditId(null);
-    setEditingText('');
   }
   return (
     <div>
+      <h3>LIST OF TODO</h3>
       <ul>
         {todoList.map((todo) => (
           <>
-            <li key={todo.id}>
-              {editId === todo.id ? (
-                <>
-                  <input
-                    id="text"
-                    value={editingText}
-                    type="text"
-                    onChange={(e) => setEditingText(e.target.value)}
-                  />
-                  <button onClick={() => saveEdit(todo.id)}>Save</button>
-                </>
-              ) : (
-                <>
-                  {todo.text}
-                  <button onClick={() => startEdit(todo.id, todo.text)}>
-                    Edits
-                  </button>
-                  <button>Remove</button>
-                </>
-              )}
-            </li>
+            <li key={todo.id}>{todo.text}</li>
+            {editId === todo.id ? (
+              <>
+                <input
+                  id="text"
+                  value={editText}
+                  onChange={(e) => setEditText(e.target.value)}
+                />
+                <button>Save</button>
+              </>
+            ) : (
+              <>
+                <button onClick={() => startEdit(todo.id)}>Edit</button>
+                <button>Remove</button>
+              </>
+            )}
           </>
         ))}
       </ul>
