@@ -22,6 +22,15 @@ function Todo() {
     setTodoText('');
   }
 
+  // if a todo's id is been edited, edit it otherwise return the
+  // todo as it is
+
+  function onEditTodo(id: number, newText: string) {
+    setTodoList((prev) =>
+      prev.map((todo) => (todo.id === id ? { ...todo, text: newText } : todo)),
+    );
+  }
+
   return (
     <div>
       <h1>TODO APP</h1>
@@ -33,7 +42,7 @@ function Todo() {
         onChange={onHandleTodoTextChange}
       />
       <button onClick={onSubmitTodo}>Submit</button>
-      <TodoList todoList={todoList} />
+      <TodoList onEditTodo={onEditTodo} todoList={todoList} />
     </div>
   );
 }
