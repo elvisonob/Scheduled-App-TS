@@ -27,6 +27,10 @@ function Todo() {
     });
   }
 
+  function removeTodo(id: number) {
+    setTodoList((prev) => prev.filter((todo) => todo.id !== id));
+  }
+
   return (
     <div>
       <h1>TODO APP</h1>
@@ -39,7 +43,11 @@ function Todo() {
       />
       <button onClick={onSubmitTodo}>Submit</button>
       <div>
-        <TodoList editTodo={editTodo} todoList={todoList} />
+        <TodoList
+          editTodo={editTodo}
+          removeTodo={removeTodo}
+          todoList={todoList}
+        />
       </div>
     </div>
   );

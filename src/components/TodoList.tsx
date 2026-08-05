@@ -8,9 +8,10 @@ type Todos = {
 type TodoListProps = {
   todoList: Todos[];
   editTodo: (id: number, text: string) => void;
+  removeTodo: (id: number) => void;
 };
 
-function TodoList({ todoList, editTodo }: TodoListProps) {
+function TodoList({ todoList, editTodo, removeTodo }: TodoListProps) {
   const [editId, setEditId] = useState<null | number>(null);
   const [editText, setEditText] = useState('');
 
@@ -36,6 +37,7 @@ function TodoList({ todoList, editTodo }: TodoListProps) {
                 <input
                   type="text"
                   id="text"
+                  value={editText}
                   onChange={(e) => setEditText(e.target.value)}
                 />
                 <button onClick={() => saveEdit(todo.id)}>Save</button>
@@ -45,7 +47,7 @@ function TodoList({ todoList, editTodo }: TodoListProps) {
                 <button onClick={() => startEdit(todo.id, todo.text)}>
                   Edit
                 </button>
-                <button>Remove</button>
+                <button onClick={() => removeTodo(todo.id)}>Remove</button>
               </>
             )}
           </>
