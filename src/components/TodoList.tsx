@@ -5,20 +5,14 @@ type Todos = {
   text: string;
 };
 
-type TodoArray = {
+type TodoListProps = {
   todoList: Todos[];
-  onEditTodo(id: number, newText: string): void;
+  editTodo: (id: number, text: string) => void;
 };
 
-//when editId is clicked, the UI has to change hence a state
-// it needs to change to an input form with a save button
-
-//When a savebutton is clicked, it returns back to button edit
-//and remove with the new input
-
-function TodoList({ todoList, onEditTodo }: TodoArray) {
-  const [editText, setEditText] = useState('');
+function TodoList({ todoList, editTodo }: TodoListProps) {
   const [editId, setEditId] = useState<null | number>(null);
+  const [editText, setEditText] = useState('');
 
   function startEdit(id: number, text: string) {
     setEditId(id);
@@ -26,9 +20,8 @@ function TodoList({ todoList, onEditTodo }: TodoArray) {
   }
 
   function saveEdit(id: number) {
-    onEditTodo(id, editText);
+    editTodo(id, editText);
     setEditId(null);
-    setEditText('');
   }
 
   return (
@@ -41,17 +34,11 @@ function TodoList({ todoList, onEditTodo }: TodoArray) {
             {editId === todo.id ? (
               <>
                 <input
+                  type="text"
                   id="text"
-                  value={editText}
                   onChange={(e) => setEditText(e.target.value)}
                 />
-                <button
-                  onClick={() => {
-                    saveEdit(todo.id);
-                  }}
-                >
-                  Save
-                </button>
+                <button onClick={() => saveEdit(todo.id)}>Save</button>
               </>
             ) : (
               <>
@@ -67,5 +54,4 @@ function TodoList({ todoList, onEditTodo }: TodoArray) {
     </div>
   );
 }
-
 export default TodoList;

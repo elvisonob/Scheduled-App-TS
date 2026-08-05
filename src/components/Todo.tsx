@@ -10,41 +10,38 @@ function Todo() {
   const [todoText, setTodoText] = useState('');
   const [todoList, setTodoList] = useState<Todos[]>([]);
 
-  function onHandleTodoTextChange(e: React.ChangeEvent<HTMLInputElement>) {
+  function onChangeTodoText(e: React.ChangeEvent<HTMLInputElement>) {
     setTodoText(e.target.value);
   }
 
   function onSubmitTodo() {
-    setTodoList((prev) => {
-      return [...prev, { id: Math.random(), text: todoText }];
-    });
-
+    setTodoList((prev) => [...prev, { id: Math.random(), text: todoText }]);
     setTodoText('');
   }
 
-  // if a todo's id is been edited, edit it otherwise return the
-  // todo as it is
-
-  function onEditTodo(id: number, newText: string) {
-    setTodoList((prev) =>
-      prev.map((todo) => (todo.id === id ? { ...todo, text: newText } : todo)),
-    );
+  function editTodo(id: number, newText: string) {
+    setTodoList((prev) => {
+      return prev.map((todo) =>
+        todo.id === id ? { ...todo, text: newText } : todo,
+      );
+    });
   }
 
   return (
     <div>
       <h1>TODO APP</h1>
-      <h2>Add Todo</h2>
+      <h2>ADD TODO</h2>
       <input
-        id="text"
         type="text"
+        id="text"
         value={todoText}
-        onChange={onHandleTodoTextChange}
+        onChange={onChangeTodoText}
       />
       <button onClick={onSubmitTodo}>Submit</button>
-      <TodoList onEditTodo={onEditTodo} todoList={todoList} />
+      <div>
+        <TodoList editTodo={editTodo} todoList={todoList} />
+      </div>
     </div>
   );
 }
-
 export default Todo;
