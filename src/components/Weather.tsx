@@ -14,8 +14,6 @@ interface WeatherApp {
   };
 }
 
-// Now, I want users to select a list of cities from a dropdown.
-
 function Weather() {
   const [dataReadings, setDataReadings] = useState<WeatherApp | null>(null);
   const [cityName, selectCityName] = useState('');
@@ -30,27 +28,36 @@ function Weather() {
   };
 
   useEffect(() => {
-    fetchWeather('london');
-  }, []);
+    if (cityName) {
+      fetchWeather(cityName);
+    }
+  }, [cityName]);
 
-  if (!dataReadings) {
-    return <h1>Loading weather...</h1>;
-  }
+  // if (!dataReadings) {
+  //   return <h1>Loading weather...</h1>;
+  // }
 
   return (
     <div>
-      <select>
-        <div value="">Select an Item</div>
-        <p value="london">London</p>
-        <p value="glasgow">Glasgow</p>
-        <p value="edinburgh">Edinburgh</p>
-        <p value="manchester">Manchester</p>
+      <select value={cityName} onChange={(e) => selectCityName(e.target.value)}>
+        <option value="">Select an Item</option>
+        <option value="london">London</option>
+        <option value="glasgow">Glasgow</option>
+        <option value="edinburgh">Edinburgh</option>
+        <option value="manchester">Manchester</option>
+        <option value="newyork">New York</option>
       </select>
-      <h1>City: {dataReadings.location.name}</h1>
-      <h3>Degree Celsius: {dataReadings.current.temp_c} </h3>
-      <p>Precipitation: {dataReadings.current.precip_in} </p>
-      <p>Humidity: {dataReadings.current.humidity} </p>
-      <p>Wind: {dataReadings.current.wind_degree} </p>
+      {dataReadings ? (
+        <div>
+          <h1>City: {dataReadings.location.name}</h1>
+          <h3>Degree Celsius: {dataReadings.current.temp_c} </h3>
+          <p>Precipitation: {dataReadings.current.precip_in} </p>
+          <p>Humidity: {dataReadings.current.humidity} </p>
+          <p>Wind: {dataReadings.current.wind_degree} </p>
+        </div>
+      ) : (
+        <p>Please select a city</p>
+      )}
 
       <div>
         <h3>Weather</h3>
