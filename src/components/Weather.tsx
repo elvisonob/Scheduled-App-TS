@@ -18,20 +18,25 @@ type WeatherApi = {
 function WeatherApp() {
   const [city, setCity] = useState('');
   const [weatherData, setWeatherData] = useState<WeatherApi | null>(null);
+  const [error, setError] = useState('');
 
   const fetchFunction = async (city: string) => {
     const response = await fetch(
       `https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${city}`,
     );
 
-     try{
-      if (!response.ok){
-        
-      }
-     }catch(){
-
-     }
     const data = await response.json();
+
+    try {
+      setError('');
+      if (!response.ok) {
+        setWeatherData(null);
+        setError(data.error?.message || 'City could not be found');
+        return;
+      }
+    } catch (error) {
+      setWeatherData(null);
+    }
 
     setWeatherData(data);
   };
@@ -67,7 +72,7 @@ function WeatherApp() {
           <div>Wind: {weatherData.current.wind_kph} </div>
         </div>
       ) : (
-        <div>Please select a city</div>
+        !error && <div>Please select a city</div>
       )}
 
       <div>
