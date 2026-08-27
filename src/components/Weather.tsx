@@ -16,7 +16,7 @@ Show weather
 
 */
 
-function WeatherApp() {
+function Weather() {
   const [city, setCity] = useState('');
   const [loading, setLoading] = useState(false);
   const [weather, setWeather] = useState(null);
@@ -26,6 +26,22 @@ function WeatherApp() {
       `https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${city}`,
     );
     const data = await response.json();
-    console.log(data);
+    setWeather(data);
   };
+
+  useEffect(() => {
+    fetchWeather('london');
+  }, [city]);
+
+  return (
+    <div>
+      <h2>City: {weather1.location.name} </h2>
+      <div>Temperature: {weather.current.temp_c}</div>
+      <div>Humidity: {weather.current.humidity}</div>
+      <div>Precipitation: {weather.current.precip_in}</div>
+      <div>Wind: {weather.current.wind_kph}</div>
+    </div>
+  );
 }
+
+export default Weather;
