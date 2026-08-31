@@ -32,26 +32,51 @@ function Weather() {
   const [city, setCity] = useState('');
   const [loading, setLoading] = useState(false);
   const [weather, setWeather] = useState<WeatherApi | null>(null);
+  const [error, setError] = useState('');
 
   const fetchWeather = async (city: string) => {
-    const response = await fetch(
-      `https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${city}`,
-    );
-    const data = await response.json();
-    setWeather(data);
+    try {
+      setLoading(true);
+      const response = await fetch(
+        `https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${city}`,
+      );
+      if (!response.ok) {
+        setCity('');
+        setError('Something went wrong');
+      }
+
+      const data = await response.json();
+      setWeather(data);
+      setLoading(false);
+    } catch (error) {
+      setError("Couldn't find town");
+    }
   };
 
   useEffect(() => {
-    fetchWeather('london');
+    fetchWeather(city);
   }, [city]);
 
   return (
     <div>
-      <h2>City: {weather?.location.name} </h2>
-      <div>Temperature: {weather?.current.temp_c}</div>
-      <div>Humidity: {weather?.current.humidity}</div>
-      <div>Precipitation: {weather?.current.precip_in}</div>
-      <div>Wind: {weather?.current.wind_kph}</div>
+      <div>{error && <p>{error}</p>}</div>
+      <select onChange={(e) => setCity(e.target.value)} value={city}>
+        <option value="london">London</option>
+        <option value="manchester">Manchester</option>
+        <option value="ukpoma">Ukpoma</option>
+      </select>
+      <div>{loading && <p>Loading</p>}</div>
+      {weather ? (
+        <div>
+          <h2>City: {weather.location.name} </h2>
+          <div>Temperature: {weather.current.temp_c}</div>
+          <div>Humidity: {weather.current.humidity}</div>
+          <div>Precipitation: {weather.current.precip_in}</div>
+          <div>Wind: {weather.current.wind_kph}</div>
+        </div>
+      ) : (
+        <p>Please select a city</p>
+      )}
     </div>
   );
 }
