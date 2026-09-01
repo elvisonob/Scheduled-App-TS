@@ -49,7 +49,7 @@ function Weather() {
       setWeather(data);
       setLoading(false);
     } catch (error) {
-      setError("Couldn't find town");
+      setError("Couldn't find the city");
     }
   };
 
