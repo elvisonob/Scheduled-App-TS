@@ -2,20 +2,6 @@ import { ReactEventHandler, useState, useEffect } from 'react';
 
 const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
 
-/*
-
-User selects a city
-
-App looks for weather
-
-Shows loading
-
-Weather data arrives
-
-Show weather
-
-*/
-
 type WeatherApi = {
   location: {
     name: string;
@@ -41,19 +27,20 @@ function Weather() {
         `https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${city}`,
       );
       if (!response.ok) {
-        setCity('');
         setError('Something went wrong');
       }
-
       const data = await response.json();
       setWeather(data);
       setLoading(false);
     } catch (error) {
-      setError("Couldn't find the city");
+      setError('Something went wrong');
     }
   };
 
   useEffect(() => {
+    if (!city) {
+      return;
+    }
     fetchWeather(city);
   }, [city]);
 
@@ -61,6 +48,7 @@ function Weather() {
     <div>
       <div>{error && <p>{error}</p>}</div>
       <select onChange={(e) => setCity(e.target.value)} value={city}>
+        <option>Select a city</option>
         <option value="london">London</option>
         <option value="manchester">Manchester</option>
         <option value="ukpoma">Ukpoma</option>
