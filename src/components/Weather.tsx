@@ -14,57 +14,73 @@ type WeatherApi = {
   };
 };
 
+// Implement isLoading in the UI
+// When wrong city is selected, 'Please select a city' should be taken off
+
 function Weather() {
   const [city, setCity] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [weather, setWeather] = useState<WeatherApi | null>(null);
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [weatherApi, setWeatherApi] = useState<WeatherApi | null>(null);
 
-  const fetchWeather = async (city: string) => {
+  async function fetchWeatherApi(city: string) {
     try {
-      setLoading(true);
+      setIsLoading(true);
       const response = await fetch(
         `https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${city}`,
       );
+
       if (!response.ok) {
-        setError('Something went wrong');
+        setError('Something went wrong, try again');
+        setWeatherApi(null);
+        return;
       }
+
       const data = await response.json();
-      setWeather(data);
-      setLoading(false);
+
+      setWeatherApi(data);
     } catch (error) {
-      setError('Something went wrong');
+      setWeatherApi(null);
+      setError('Something utterly is wrong');
+    } finally {
+      setIsLoading(false);
     }
-  };
+  }
 
   useEffect(() => {
     if (!city) {
       return;
     }
-    fetchWeather(city);
+    fetchWeatherApi(city);
   }, [city]);
+
+  let content = <p>Please select a city</p>;
+
+  if (isLoading) {
+    content = <p>Loading...</p>;
+  } else if (error) {
+    content = <p>{error}</p>;
+  } else if (weatherApi) {
+    content = (
+      <div>
+        <h2>City: {weatherApi.location.name}</h2>
+        <p>Precipitation: {weatherApi.current.precip_in}</p>
+        <p>Wind: {weatherApi.current.wind_kph}</p>
+        <p>Humidity: {weatherApi.current.humidity}</p>
+        <p>Temperature: {weatherApi.current.temp_c}</p>
+      </div>
+    );
+  }
 
   return (
     <div>
-      <div>{error && <p>{error}</p>}</div>
-      <select onChange={(e) => setCity(e.target.value)} value={city}>
-        <option>Select a city</option>
+      <select value={city} onChange={(e) => setCity(e.target.value)}>
+        <option value="">Select a city</option>
         <option value="london">London</option>
-        <option value="manchester">Manchester</option>
-        <option value="ukpoma">Ukpoma</option>
+        <option value="Manchester">Manchester</option>
+        <option value="Ukpoma">Ukpoma</option>
       </select>
-      <div>{loading && <p>Loading</p>}</div>
-      {weather ? (
-        <div>
-          <h2>City: {weather.location.name} </h2>
-          <div>Temperature: {weather.current.temp_c}</div>
-          <div>Humidity: {weather.current.humidity}</div>
-          <div>Precipitation: {weather.current.precip_in}</div>
-          <div>Wind: {weather.current.wind_kph}</div>
-        </div>
-      ) : (
-        <p>Please select a city</p>
-      )}
+      <div>{content}</div>
     </div>
   );
 }
