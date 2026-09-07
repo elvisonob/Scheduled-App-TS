@@ -54,7 +54,7 @@ function Weather() {
     fetchWeatherApi(city);
   }, [city]);
 
-  let content = <p>Please select a city</p>;
+  let content = <p>Please choose a city</p>;
 
   if (isLoading) {
     content = <p>Loading...</p>;
