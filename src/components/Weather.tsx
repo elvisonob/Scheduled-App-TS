@@ -41,7 +41,7 @@ function Weather() {
       setWeatherApi(data);
     } catch (error) {
       setWeatherApi(null);
-      setError('Something utterly is wrong');
+      setError('Something strangely is wrong');
     } finally {
       setIsLoading(false);
     }
