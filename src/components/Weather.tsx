@@ -31,7 +31,7 @@ function Weather() {
       );
 
       if (!response.ok) {
-        setError('Something went wrong, try again');
+        setError('Something went not right, try again');
         setWeatherApi(null);
         return;
       }
