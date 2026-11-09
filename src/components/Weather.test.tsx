@@ -33,5 +33,5 @@ test("renders data that's returned from API", async () => {
   render(<Weather />);
 
   expect(await screen.findByText('City: Glasgow')).toBeInTheDocument();
-  expect(await screen.findByText('feelslike_f: 32.7')).toBeInTheDocument();
+  expect(await screen.findByText('Temperature: 32.7')).toBeInTheDocument();
 });
