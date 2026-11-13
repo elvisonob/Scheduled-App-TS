@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
-import Weather from './Weather';
+import Weather from './London';
 import '@testing-library/jest-dom';
 
 const handlers = [

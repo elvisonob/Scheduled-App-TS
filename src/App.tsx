@@ -1,9 +1,9 @@
-import Weather from './components/Weather';
+import London from './components/London';
 
 function App() {
   return (
     <div>
-      <Weather />
+      <London />
     </div>
   );
 }

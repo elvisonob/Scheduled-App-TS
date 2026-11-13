@@ -1,24 +1,12 @@
 import { useState, useEffect } from 'react';
 
-/*
-I am fetching the city of London's temperature, humidity, precipitation
-*/
-
-const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
-
-type WeatherApi = {
-  location: {
-    name: string;
-  };
-  current: {
-    feelslike_f: number;
-    humidity: number;
-    precip_in: number;
-  };
+type CityApi = {
+  timezone: string;
+  datetime: string;
 };
 
 function App() {
-  const [weather, setWeather] = useState<WeatherApi | null>(null);
+  const [city, setCity] = useState<CityApi | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -26,10 +14,10 @@ function App() {
     const fetchWeather = async () => {
       setLoading(true);
       setError(null);
-      setWeather(null);
+      setCity(null);
       try {
         const response = await fetch(
-          `https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=London`,
+          `https://worldtime.timezone.io/api/timezone/Europe/London`,
         );
         const data = await response.json();
 
@@ -37,7 +25,7 @@ function App() {
           throw new Error(data.error?.message || 'Something went wrong');
         }
 
-        setWeather(data);
+        setCity(data);
       } catch (error: unknown) {
         const message =
           error instanceof Error
@@ -61,17 +49,15 @@ function App() {
     return <p>{error}</p>;
   }
 
-  if (!weather) {
-    return <p>No weather data available</p>;
+  if (!city) {
+    return <p>No city data available</p>;
   }
   return (
     <div>
-      <h2>Weather API</h2>
+      <h2>City API</h2>
       <div>
-        <p>City: {weather.location.name}</p>
-        <p>Temperature: {weather.current.feelslike_f} </p>
-        <p>Humidity: {weather.current.humidity} </p>
-        <p>Precipitation: {weather.current.precip_in} </p>
+        <p>City: {city.timezone}</p>
+        <p>Time: {city.datetime} </p>
       </div>
     </div>
   );
