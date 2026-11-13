@@ -1,45 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useFetchTime } from '../hooks/useFetchTime';
 
 type CityApi = {
-  timezone: string;
-  datetime: string;
+  timeZone: string;
+  time: string;
 };
 
 function App() {
-  const [city, setCity] = useState<CityApi | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchWeather = async () => {
-      setLoading(true);
-      setError(null);
-      setCity(null);
-      try {
-        const response = await fetch(
-          `https://worldtime.timezone.io/api/timezone/Europe/London`,
-        );
-        const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error(data.error?.message || 'Something went wrong');
-        }
-
-        setCity(data);
-      } catch (error: unknown) {
-        const message =
-          error instanceof Error
-            ? error.message
-            : 'An unexpected error occurred';
-        console.error(error);
-        setError(message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchWeather();
-  }, []);
+  const { city, loading, error } = useFetchTime('Paris');
 
   if (loading) {
     return <p>Loading...</p>;
@@ -52,12 +19,15 @@ function App() {
   if (!city) {
     return <p>No city data available</p>;
   }
+
+  // Format the time here
+
   return (
     <div>
       <h2>City API</h2>
       <div>
-        <p>City: {city.timezone}</p>
-        <p>Time: {city.datetime} </p>
+        <p>Time: {city.time}</p>
+        <p>City: {city.timeZone} </p>
       </div>
     </div>
   );
