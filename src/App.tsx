@@ -1,11 +1,10 @@
-import London from './components/London';
-import Paris from './components/Paris';
+import Arithmetic from './components/Arithmetic'
 
 function App() {
   return (
     <div>
-      <London />
-      <Paris />
+      <Arithmetic />
+      
     </div>
   );
 }
