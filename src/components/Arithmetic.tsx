@@ -3,6 +3,7 @@ import { useState } from 'react';
 function Arithmetic() {
   const [digit1, setDigit1] = useState<number | string>('');
   const [digit2, setDigit2] = useState<number | string>('');
+  const [warning, setWarning] = useState(false);
   const [operationSign, setOperationSign] = useState<'+' | '-' | '*' | '/'>(
     '+',
   );
@@ -18,6 +19,7 @@ function Arithmetic() {
 
   function equalTo() {
     if (digit1 === '' || digit2 === '') {
+      setWarning(true);
       return;
     }
     switch (operationSign) {
@@ -34,6 +36,7 @@ function Arithmetic() {
         setSummation(Number(digit1) / Number(digit2));
         break;
     }
+    setWarning(false);
     return summation;
   }
   return (
@@ -50,6 +53,7 @@ function Arithmetic() {
         <option value="/">/</option>
       </select>
       <input type="number" value={digit2} onChange={input2} />
+      {warning && <p>All inputs should be filled</p>}
       <div onClick={equalTo}>=</div>
       <div>{summation}</div>
     </div>
